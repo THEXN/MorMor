@@ -468,7 +468,7 @@ public class OneBotCommand
     {
         var reloadArgs = new ReloadEventArgs();
         MorMorAPI.LoadConfig();
-        reloadArgs.Message.Add("沫沫配置文件重读成功!");
+        reloadArgs.Message.Add("汐儿配置文件重读成功!");
         await OperatHandler.Reload(reloadArgs);
         await args.EventArgs.Reply(reloadArgs.Message);
     }
