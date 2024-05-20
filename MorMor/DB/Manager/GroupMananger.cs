@@ -122,7 +122,7 @@ public class GroupMananger
 
     public List<Group> GetGroups()
     {
-        List<Group> list = new();
+        List<Group> list = [];
         using var read = database.QueryReader("select * from `grouplist`");
         while (read.Read())
         {
@@ -131,6 +131,11 @@ public class GroupMananger
             var Parent = read.Get<string>("Parent");
             if (GroupName == "superadmin")
                 list.Add(new SuperAdminGroup());
+            else if (GroupName == MorMorAPI.Setting.DefaultPermGroup)
+            {
+                DefaultGroup.permissions = DefaultGroup.permissions.Concat(permssions.Split(",")).Distinct().ToList();
+                list.Add(DefaultGroup);
+            }
             else if (!string.IsNullOrEmpty("parent"))
                 list.Add(new Group(GroupName, new Group(Parent), permssions));
             else
