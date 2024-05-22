@@ -404,7 +404,7 @@ public class OneBotCommand
     private async Task VersionInfo(CommandArgs args)
     {
         var info = "名称: MorMor" +
-            "\n版本: V2.0.0.1" +
+            "\n版本: V2.0.1.2" +
             $"\n运行时长: {DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime:dd\\.hh\\:mm\\:ss}" +
             "\nMorMor是基于LLOneBot开发的 .NET平台机器人，主要功能为群管理以及TShock服务器管理" +
             "\n开源地址: https://github.com/Controllerdestiny/MorMor";
@@ -622,6 +622,11 @@ public class OneBotCommand
         if (!MorMorAPI.UserLocation.TryGetServer(args.EventArgs.Sender.Id, args.EventArgs.Group.Id, out var server) || server == null)
         {
             await args.EventArgs.Reply("服务器不存在或，未切换至一个服务器！", true);
+            return;
+        }
+        if (MorMorAPI.TerrariaUserManager.GetUserById(args.EventArgs.Sender.Id, server.Name).Count >= server.RegisterMaxCount)
+        {
+            await args.EventArgs.Reply($"同一个服务器上绑定账户不能超过{server.RegisterMaxCount}个", true);
             return;
         }
         if (args.Parameters.Count == 1)
@@ -1307,7 +1312,11 @@ public class OneBotCommand
                 await args.EventArgs.Reply("注册的人物名称不能包含中文以及字母以外的字符", true);
                 return;
             }
-
+            if (MorMorAPI.TerrariaUserManager.GetUserById(args.EventArgs.Sender.Id, server.Name).Count >= server.RegisterMaxCount)
+            {
+                await args.EventArgs.Reply($"同一个服务器上注册账户不能超过{server.RegisterMaxCount}个", true);
+                return;
+            }
             var pass = Guid.NewGuid().ToString()[..8];
             try
             {
@@ -1355,11 +1364,15 @@ public class OneBotCommand
         if (MorMorAPI.UserLocation.TryGetServer(args.EventArgs.Sender.Id, args.EventArgs.Group.Id, out var server) && server != null)
         {
             var user = MorMorAPI.TerrariaUserManager.GetUserById(args.EventArgs.Sender.Id, server.Name);
-            if (user != null)
+            if (user.Count >= 0)
             {
+                var sb = new StringBuilder();
+                foreach (var u in user)
+                    sb.AppendLine($"人物{u.Name}的注册密码为: {u.Password}");
+                sb.AppendLine("请注意保存不要暴露给他人");
                 MailHelper.SendMail($"{args.EventArgs.Sender.Id}@qq.com",
                             $"{server.Name}服务器注册密码",
-                            $"您的注册密码是:{user.Password}<br>请注意保存不要暴露给他人");
+                            sb.ToString().Trim());
                 await args.EventArgs.Reply("密码查询成功已发送至你的QQ邮箱。", true);
                 return;
             }
@@ -1380,19 +1393,25 @@ public class OneBotCommand
             {
                 var user = MorMorAPI.TerrariaUserManager.GetUserById(args.EventArgs.Sender.Id, server.Name);
 
-                if (user != null)
+                if (user.Count > 0)
                 {
-                    var pwd = Guid.NewGuid().ToString()[..8];
-                    var res = await server.ResetPlayerPwd(user.Name, pwd);
-                    if (!res.Status)
-                    {
-                        await args.EventArgs.Reply("无法连接到服务器更改密码!");
-                        return;
+                    var sb = new StringBuilder();
+                    foreach (var u in user)
+                    { 
+                        var pwd = Guid.NewGuid().ToString()[..8];
+                        sb.Append($"人物 {u.Name}的密码重置为: {pwd}<br>");
+                        var res = await server.ResetPlayerPwd(u.Name, pwd);
+                        if (!res.Status)
+                        {
+                            await args.EventArgs.Reply("无法连接到服务器更改密码!");
+                            return;
+                        }
+                        MorMorAPI.TerrariaUserManager.ResetPassword(args.EventArgs.Sender.Id, server.Name, u.Name, pwd);
                     }
-                    MorMorAPI.TerrariaUserManager.ResetPassword(args.EventArgs.Sender.Id, server.Name, pwd);
+                    sb.Append("请注意保存不要暴露给他人");
                     MailHelper.SendMail($"{args.EventArgs.Sender.Id}@qq.com",
                                 $"{server.Name}服密码重置",
-                                $"您的新注册是: {pwd}<br>请注意保存不要暴露给他人");
+                                sb.ToString().Trim());
                     await args.EventArgs.Reply("密码重置成功已发送至你的QQ邮箱。", true);
                     return;
                 }
@@ -1434,6 +1453,7 @@ public class OneBotCommand
                 {
                     sb.AppendLine("注册人不在此群中");
                 }
+                sb.AppendLine("");
             }
             await args.EventArgs.Reply(sb.ToString().Trim());
         }
