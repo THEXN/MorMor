@@ -404,7 +404,7 @@ public class OneBotCommand
     private async Task VersionInfo(CommandArgs args)
     {
         var info = "名称: MorMor" +
-            "\n版本: V2.0.1.3" +
+            "\n版本: V2.0.1.5" +
             $"\n运行时长: {DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime:dd\\.hh\\:mm\\:ss}" +
             "\nMorMor是基于LLOneBot开发的 .NET平台机器人，主要功能为群管理以及TShock服务器管理" +
             "\n开源地址: https://github.com/Controllerdestiny/MorMor";
@@ -654,6 +654,10 @@ public class OneBotCommand
                 {
                     await args.EventArgs.Reply(ex.Message, true);
                 }
+            }
+            else
+            {
+                await args.EventArgs.Reply($"请先输入{args.CommamdPrefix}{args.Name} [名称] 在进行验证", true);
             }
         }
     }
