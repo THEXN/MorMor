@@ -94,7 +94,7 @@ internal static class CommandUtils
             MomoSegment.Image($"http://q.qlogo.cn/headimg_dl?dst_uin={uin}&spec=640&img_type=png"),
             MomoSegment.Text($"[QQ账号]:{userid}\n"),
             MomoSegment.Text($"[签到时长]:{sign}\n"),
-            MomoSegment.Text($"[星币数量]:{currency}\n"),
+            MomoSegment.Text($"[落叶数量]:{currency}\n"),
             MomoSegment.Text($"[拥有权限]:{groupName}\n"),
             MomoSegment.Text($"[绑定角色]:{bindName}\n"),
             MomoSegment.Text($"[经验数量]:{exp}\n"),

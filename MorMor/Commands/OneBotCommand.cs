@@ -624,8 +624,8 @@ public class OneBotCommand
                 MomoSegment.Image(args.EventArgs.SenderInfo.TitleImage),
                 MomoSegment.Text($"签到成功！\n"),
                 MomoSegment.Text($"[签到时长]：{result.Date}\n"),
-                MomoSegment.Text($"[获得星币]：{num}\n"),
-                MomoSegment.Text($"[星币总数]：{currency.num}")
+                MomoSegment.Text($"[获得落叶]：{num}\n"),
+                MomoSegment.Text($"[落叶总数]：{currency.num}")
             };
             await args.EventArgs.Reply(body);
         }
@@ -964,8 +964,8 @@ public class OneBotCommand
     }
     #endregion
 
-    #region 星币管理
-    [CommandMatch("星币", OneBotPermissions.CurrencyUse, OneBotPermissions.CurrencyAdmin)]
+    #region 落叶管理
+    [CommandMatch("落叶", OneBotPermissions.CurrencyUse, OneBotPermissions.CurrencyAdmin)]
     private async Task Currency(CommandArgs args)
     {
         var at = args.EventArgs.MessageContext.GetAts();
@@ -990,7 +990,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, qq, num);
-                await args.EventArgs.Reply($"成功为 {qq} 添加{num}个星币!");
+                await args.EventArgs.Reply($"成功为 {qq} 添加{num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -1013,7 +1013,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, at.First().UserId, num);
-                await args.EventArgs.Reply($"成功为 {at.First()} 添加{num}个星币!");
+                await args.EventArgs.Reply($"成功为 {at.First()} 添加{num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -1041,7 +1041,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, qq, num);
-                await args.EventArgs.Reply($"成功删除 {qq} 的 {num}个星币!");
+                await args.EventArgs.Reply($"成功删除 {qq} 的 {num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -1064,7 +1064,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, at.First().UserId, num);
-                await args.EventArgs.Reply($"成功扣除 {at.First()} 的 {num}个星币!");
+                await args.EventArgs.Reply($"成功扣除 {at.First()} 的 {num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -1087,7 +1087,7 @@ public class OneBotCommand
             var usercurr = MorMorAPI.CurrencyManager.Query(args.EventArgs.Group.Id, args.EventArgs.Sender.Id);
             if (usercurr == null || usercurr.num < num)
             {
-                await args.EventArgs.Reply("你没有足够的星币付给他人!");
+                await args.EventArgs.Reply("你没有足够的落叶付给他人!");
             }
             else
             {
@@ -1095,7 +1095,7 @@ public class OneBotCommand
                 {
                     MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, args.EventArgs.Sender.Id, num);
                     MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, qq, num);
-                    await args.EventArgs.Reply($"成功付给 {qq}  {num}个星币!");
+                    await args.EventArgs.Reply($"成功付给 {qq}  {num}个落叶!");
                 }
                 catch (Exception ex)
                 {
@@ -1113,7 +1113,7 @@ public class OneBotCommand
             var usercurr = MorMorAPI.CurrencyManager.Query(args.EventArgs.Group.Id, args.EventArgs.Sender.Id);
             if (usercurr == null || usercurr.num < num)
             {
-                await args.EventArgs.Reply("你没有足够的星币付给他人!");
+                await args.EventArgs.Reply("你没有足够的落叶付给他人!");
             }
             else
             {
@@ -1121,7 +1121,7 @@ public class OneBotCommand
                 {
                     MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, args.EventArgs.Sender.Id, num);
                     MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, at.First().UserId, num);
-                    await args.EventArgs.Reply($"成功付给 {at.First()}  {num}个星币!");
+                    await args.EventArgs.Reply($"成功付给 {at.First()}  {num}个落叶!");
                 }
                 catch (Exception ex)
                 {
@@ -1132,12 +1132,12 @@ public class OneBotCommand
         else
         {
             await args.EventArgs.Reply("语法错误，正确语法:\n" +
-                $"{args.CommamdPrefix}星币 add <qq> <数量>\n" +
-                $"{args.CommamdPrefix}星币 add <数量> at\n" +
-                $"{args.CommamdPrefix}星币 del <qq> <数量>\n" +
-                $"{args.CommamdPrefix}星币 del <数量> at\n" +
-                $"{args.CommamdPrefix}星币 pay <qq> 数量\n" +
-                $"{args.CommamdPrefix}星币 pay <数量> at");
+                $"{args.CommamdPrefix}落叶 add <qq> <数量>\n" +
+                $"{args.CommamdPrefix}落叶 add <数量> at\n" +
+                $"{args.CommamdPrefix}落叶 del <qq> <数量>\n" +
+                $"{args.CommamdPrefix}落叶 del <数量> at\n" +
+                $"{args.CommamdPrefix}落叶 pay <qq> 数量\n" +
+                $"{args.CommamdPrefix}落叶 pay <数量> at");
         }
     }
     #endregion

@@ -62,7 +62,11 @@ public class TerrariaServer
     [JsonProperty("服务器版本")]
     public string Version { get; set; } = "1.4.4.9";
 
+    [JsonProperty("签到货币最大值")]
+    public int SignMax  { get; set; } = 300;
 
+    [JsonProperty("签到货币最小值")]
+    public int SignMin { get; set; } = 200;
 
     [JsonProperty("所属群")]
     public HashSet<long> Groups { get; set; } = new();

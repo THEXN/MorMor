@@ -66,7 +66,7 @@ public class CurrencyManager
     {
         var usercurr = Query(groupid, id);
         if (usercurr == null)
-            throw new Exception("用户没有星币可以扣除!");
+            throw new Exception("用户没有落叶可以扣除!");
         if (database.Query("UPDATE `Currency` SET `num` = @0 WHERE `GroupId` = @1 AND `QQ` = @2", usercurr.num - num, groupid, id) == 1)
         {
             usercurr.num -= num;
