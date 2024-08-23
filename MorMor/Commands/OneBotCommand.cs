@@ -482,8 +482,8 @@ public class OneBotCommand
                 MomoSegment.Image(args.EventArgs.SenderInfo.TitleImage),
                 MomoSegment.Text($"签到成功！\n"),
                 MomoSegment.Text($"[签到时长]：{result.Date}\n"),
-                MomoSegment.Text($"[获得星币]：{num}\n"),
-                MomoSegment.Text($"[星币总数]：{currency.num}")
+                MomoSegment.Text($"[获得落叶]：{num}\n"),
+                MomoSegment.Text($"[落叶总数]：{currency.num}")
             };
             await args.EventArgs.Reply(body);
         }
@@ -500,7 +500,7 @@ public class OneBotCommand
     {
         var reloadArgs = new ReloadEventArgs();
         MorMorAPI.LoadConfig();
-        reloadArgs.Message.Add("沫沫配置文件重读成功!");
+        reloadArgs.Message.Add("汐儿配置文件重读成功!");
         await OperatHandler.Reload(reloadArgs);
         await args.EventArgs.Reply(reloadArgs.Message);
     }
@@ -767,8 +767,8 @@ public class OneBotCommand
     }
     #endregion
 
-    #region 星币管理
-    [CommandMatch("星币", OneBotPermissions.CurrencyUse, OneBotPermissions.CurrencyAdmin)]
+    #region 落叶管理
+    [CommandMatch("落叶", OneBotPermissions.CurrencyUse, OneBotPermissions.CurrencyAdmin)]
     public static async ValueTask Currency(CommandArgs args)
     {
         var at = args.EventArgs.MessageContext.GetAts();
@@ -793,7 +793,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, qq, num);
-                await args.EventArgs.Reply($"成功为 {qq} 添加{num}个星币!");
+                await args.EventArgs.Reply($"成功为 {qq} 添加{num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -816,7 +816,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, at.First().UserId, num);
-                await args.EventArgs.Reply($"成功为 {at.First()} 添加{num}个星币!");
+                await args.EventArgs.Reply($"成功为 {at.First()} 添加{num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -844,7 +844,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, qq, num);
-                await args.EventArgs.Reply($"成功删除 {qq} 的 {num}个星币!");
+                await args.EventArgs.Reply($"成功删除 {qq} 的 {num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -867,7 +867,7 @@ public class OneBotCommand
             try
             {
                 var result = MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, at.First().UserId, num);
-                await args.EventArgs.Reply($"成功扣除 {at.First()} 的 {num}个星币!");
+                await args.EventArgs.Reply($"成功扣除 {at.First()} 的 {num}个落叶!");
             }
             catch (Exception ex)
             {
@@ -890,7 +890,7 @@ public class OneBotCommand
             var usercurr = MorMorAPI.CurrencyManager.Query(args.EventArgs.Group.Id, args.EventArgs.Sender.Id);
             if (usercurr == null || usercurr.num < num)
             {
-                await args.EventArgs.Reply("你没有足够的星币付给他人!");
+                await args.EventArgs.Reply("你没有足够的落叶付给他人!");
             }
             else
             {
@@ -898,7 +898,7 @@ public class OneBotCommand
                 {
                     MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, args.EventArgs.Sender.Id, num);
                     MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, qq, num);
-                    await args.EventArgs.Reply($"成功付给 {qq}  {num}个星币!");
+                    await args.EventArgs.Reply($"成功付给 {qq}  {num}个落叶!");
                 }
                 catch (Exception ex)
                 {
@@ -916,7 +916,7 @@ public class OneBotCommand
             var usercurr = MorMorAPI.CurrencyManager.Query(args.EventArgs.Group.Id, args.EventArgs.Sender.Id);
             if (usercurr == null || usercurr.num < num)
             {
-                await args.EventArgs.Reply("你没有足够的星币付给他人!");
+                await args.EventArgs.Reply("你没有足够的落叶付给他人!");
             }
             else
             {
@@ -924,7 +924,7 @@ public class OneBotCommand
                 {
                     MorMorAPI.CurrencyManager.Del(args.EventArgs.Group.Id, args.EventArgs.Sender.Id, num);
                     MorMorAPI.CurrencyManager.Add(args.EventArgs.Group.Id, at.First().UserId, num);
-                    await args.EventArgs.Reply($"成功付给 {at.First()}  {num}个星币!");
+                    await args.EventArgs.Reply($"成功付给 {at.First()}  {num}个落叶!");
                 }
                 catch (Exception ex)
                 {
@@ -935,12 +935,12 @@ public class OneBotCommand
         else
         {
             await args.EventArgs.Reply("语法错误，正确语法:\n" +
-                $"{args.CommamdPrefix}星币 add <qq> <数量>\n" +
-                $"{args.CommamdPrefix}星币 add <数量> at\n" +
-                $"{args.CommamdPrefix}星币 del <qq> <数量>\n" +
-                $"{args.CommamdPrefix}星币 del <数量> at\n" +
-                $"{args.CommamdPrefix}星币 pay <qq> 数量\n" +
-                $"{args.CommamdPrefix}星币 pay <数量> at");
+                $"{args.CommamdPrefix}落叶 add <qq> <数量>\n" +
+                $"{args.CommamdPrefix}落叶 add <数量> at\n" +
+                $"{args.CommamdPrefix}落叶 del <qq> <数量>\n" +
+                $"{args.CommamdPrefix}落叶 del <数量> at\n" +
+                $"{args.CommamdPrefix}落叶 pay <qq> 数量\n" +
+                $"{args.CommamdPrefix}落叶 pay <数量> at");
         }
     }
     #endregion
@@ -1340,9 +1340,9 @@ public class OneBotCommand
                 await args.EventArgs.Reply($"注册的人物名称不能大于{server.RegisterNameMax}个字符!", true);
                 return;
             }
-            if (!new Regex("^[a-zA-Z\u4E00-\u9FA5]+$").IsMatch(args.Parameters[0]) && server.RegisterNameLimit)
+            if (!new Regex("^[a-zA-Z0-9\u4e00-\u9fa5\\[\\]:/ ]+$").IsMatch(args.Parameters[0]) && server.RegisterNameLimit)
             {
-                await args.EventArgs.Reply("注册的人物名称不能包含中文以及字母以外的字符", true);
+                await args.EventArgs.Reply("注册的人物名称不能包含中文,字母,数字和/:[]以外的字符", true);
                 return;
             }
             if (MorMorAPI.TerrariaUserManager.GetUserById(args.EventArgs.Sender.Id, server.Name).Count >= server.RegisterMaxCount)
@@ -1367,7 +1367,8 @@ public class OneBotCommand
                         $"\n注册账号: {args.EventArgs.Sender.Id}" +
                         $"\n注册人昵称: {args.EventArgs.SenderInfo.Name}" +
                         $"\n注册密码已发送至QQ邮箱请点击下方链接查看" +
-                        $"\nhttps://wap.mail.qq.com/home/index");
+                        $"\nhttps://wap.mail.qq.com/home/index" +
+                        $"\n进入服务器后可使用/password [新密码] 修改你的密码");
                 }
                 else
                 {

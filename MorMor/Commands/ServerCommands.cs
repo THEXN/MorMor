@@ -46,7 +46,7 @@ public class ServerCommands
         var curr = MorMorAPI.CurrencyManager.Query(args.User.GroupID, args.User.Id);
         if (curr == null || curr.num < count * MorMorAPI.TerrariaPrize.Fess)
         {
-            await args.Server.PrivateMsg(args.UserName, $"你的星币不足抽取{count}次", Color.Red);
+            await args.Server.PrivateMsg(args.UserName, $"你的落叶不足抽取{count}次", Color.Red);
             return;
         }
         MorMorAPI.CurrencyManager.Del(args.User.GroupID, args.User.Id, count * MorMorAPI.TerrariaPrize.Fess);
@@ -96,7 +96,7 @@ public class ServerCommands
                     }
                     else
                     {
-                        await args.Server.PrivateMsg(args.UserName, "星币不足!", Color.GreenYellow);
+                        await args.Server.PrivateMsg(args.UserName, "落叶不足!", Color.GreenYellow);
                     }
                 }
                 else
@@ -124,7 +124,7 @@ public class ServerCommands
                     }
                     else
                     {
-                        await args.Server.PrivateMsg(args.UserName, "星币不足!", Color.GreenYellow);
+                        await args.Server.PrivateMsg(args.UserName, "落叶不足!", Color.GreenYellow);
                     }
                 }
                 else

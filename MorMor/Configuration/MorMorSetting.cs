@@ -56,10 +56,10 @@ public class MorMorSetting
     [JsonProperty("TShockSocket通信端口")]
     public int SocketProt { get; init; } = 6000;
 
-    [JsonProperty("获得星币最大数")]
+    [JsonProperty("获得落叶最大数")]
     public int SignMaxCurrency { get; init; } = 700;
 
-    [JsonProperty("获得星币最小数")]
+    [JsonProperty("获得落叶最小数")]
     public int SignMinCurrency { get; init; } = 400;
 
     [JsonProperty("服务器列表")]
