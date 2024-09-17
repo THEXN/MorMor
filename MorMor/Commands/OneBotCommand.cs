@@ -1368,7 +1368,7 @@ public class OneBotCommand
                         $"\n注册人昵称: {args.EventArgs.SenderInfo.Name}" +
                         $"\n注册密码已发送至QQ邮箱请点击下方链接查看" +
                         $"\nhttps://wap.mail.qq.com/home/index" +
-                        $"\n进入服务器后可使用/password [新密码] 修改你的密码");
+                        $"\n进入服务器后可使用/password [当前密码] [新密码] 修改你的密码");
                 }
                 else
                 {
